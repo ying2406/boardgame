@@ -1,6 +1,6 @@
 
 
-function telOp(a, b);
+function telOp(a, b)
 {
     let result = a + b
 
