@@ -28,8 +28,6 @@ class Game
         this.boardDiv = document.getElementsByClassName("board")[0];
         this.boardoverlayDiv = document.getElementsByClassName("selectPlayers")[0];
 
-        console.log(this.rollDiv);
-
         this.tiles = [];
         this.players = [];
         this.playerTurn = 0;
@@ -44,15 +42,12 @@ class Game
         for (var i = 0; i < path.length; i++)
         {
             let cmd = path[i];
-            //right movement map
             if(cmd == 1){
                 x++;
             }
-            // left movement map
             else if (cmd == 3){
                 x--;
             }
-            // up movement map 
             else if (cmd == 0){
                 y--;
             }
@@ -61,11 +56,22 @@ class Game
             this.tiles.push(tile);
 
         }
+        this.setupGotos(); 
     }
 
     setupGotos()
     {
-
+        let goto = [[6, 14], [16, 4], [17, 23], [27, 33], [29, 10], [38, 43], [39, 20], [45, 34]];
+        for (var i = 0; i < goto.length; i++)
+        {
+            let element = goto[i];
+            let start = element[0] - 1;
+            let end = element[1] - 1;
+            
+            let tile = this.tiles[start];
+            tile.goto = end;
+            console.log(tile)
+        }
     }
     start(amountOfPlayers)
     {
@@ -93,8 +99,7 @@ class Game
         div.className = "tile";
         div.style.left = x + "px";
         div.style.top = y + "px";
-        div.textContent = tileDisplayNumber;
-        console.log(this.boardDiv);        
+        div.textContent = tileDisplayNumber;       
         this.boardDiv.appendChild(div);
 
         return div;
