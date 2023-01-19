@@ -37,7 +37,6 @@ class Game
         this.mainDiv = document.getElementsByClassName("main")[0];
         this.boardDiv = document.getElementsByClassName("board")[0];
         this.boardoverlayDiv = document.getElementsByClassName("selectPlayers")[0];
-
         this.tiles = [];
         this.players = [];
         console.log(this.tiles)
@@ -129,14 +128,23 @@ class Game
         console.log(roll)
         this.rollDiv.style.backgroundImage = "url(img/dice" + roll + ".png)";
         let player = this.players[this.playerTurn];
-        let atTile = player.atTile;
+        let atTile = player.atTile+roll;
         console.log(player);
-        atTile = (atTile + roll) % this.tiles.length;
-        if (atTile >= this.tiles.length-1) {
+        if (atTile == this.tiles.length-1) {
             this.winnerDiv.textContent = "Player " + (this.playerTurn + 1) + " wins!";
             this.winnerDiv.style.display = "block";
+            this.setPawn(this.playerTurn, atTile);
         } 
-        else {
+        else
+        { 
+            if(atTile> this.tiles.length-1){
+                let divToEnd = (atTile ) % (this.tiles.length-1);
+                console.log(divToEnd)
+                atTile=this.tiles.length-1;
+                atTile -= divToEnd ;
+                    
+            }
+            
             let tile = this.tiles[atTile];
             if (tile.goto !== -1) {
                 atTile = tile.goto;
@@ -144,6 +152,7 @@ class Game
             this.setPawn(this.playerTurn, atTile);
             this.draw();
             this.moveToNextPlayer();
+            
         }
     }
     
